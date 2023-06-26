@@ -5,7 +5,7 @@
   <title>Hello</title>
 </head>
 <body>
-  <p th:text="'안녕하세요 ' + ${data1}">안녕하세요. 손님</p> # 여기에서 data1은 Controller에서 Model에 전달했던 데이터 data1이다.
-  # 그렇기 때문에 이름이 동일해야 한다.(그래서 어떤 클래스나 변수 등을 이 파일에 가져오지 않았지만 data1이라는 데이터를 사용할 수 있는 것이다.)
+  <p th:text="'안녕하세요 ' + ${data1}">안녕하세요. 손님</p> # 여기에서 data1은 Controller에서 Model에 전달했던 데이터 data1이다. -> data1의 값은 "Spring!!"이었다.(컨트롤로에서 Model.addAttribute()에 전달한 data1: "Spring!!"이다.
+  # 그렇기 때문에 Model에 전달한 data1이라는 이름과 이름이 동일해야 한다. data1은 변수, "Spring!!"은 값이라고 생각하면 된다.(그래서 어떤 클래스나 변수 등을 이 파일에 가져오지 않았지만 data1이라는 데이터를 사용할 수 있는 것이다.)
 </body>
 </html>
