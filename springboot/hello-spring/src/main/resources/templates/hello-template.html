@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!-- Thymeleaf를 사용하기 위해서 xmlns:th="http://www.thymeleaf.org" 이 부분이 필요하다. 그러면 이 파일에 Thymeleaf를 사용할 수 있다. -->
+<head>
+    <meta charset="UTF-8">
+    <title>hello-template!!</title>
+</head>
+<body>
+<p th:text="'hello ' + ${name}">안녕하세요. 손님</p>
+<!-- Thymeleaf는 이 피알의 절대 경로를 브라우저에 넣어서 서버 없이 파일을 열어볼 수 있다. -->
+<!-- 이 때 보여지는 것은 p 태그 사이에 컨텐츠("안녕하세요. 손님")이며 서버가 실행되어 Thymeleaf가 실행되면 th:text= 에 할당된 값이 p 태그의 컨텐츠에 치환된다. -->
+<!-- Thymeleaf와 같은 템플릿 엔진의 경우 브라우저에 응답을 할 때, 템플릿 형식으로 작성한 내용이 html 태그의 컨텐츠에 적용되도록 변환한 후에 브라우저에 넘겨준다.
+그래서 브라우저에서는 템플릿에 적용한 내용을 보게 되는 것이다. 실제 브라우저에서 소스보기를 하면 템플리셍 적용한 컨텐츠가 해당 태그의 컨텐츠에 적용되어서 오는 것을 확인할 수 있는데 이 것이 변환된 html 소스이다. -->
+</body>
+</html>

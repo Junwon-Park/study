@@ -8,5 +8,9 @@
     index-static HTML
 </body>
 </html>
-
+<!--
+웹 브라우저에서 localhost:8080/index-static.html을 입력하면 이 요청은 localhost:8080으로 열려 있는 내장 Tomcat 서버로 들어온다.
+# 그리고 Tomcat 서버는 이 요청을 Spring boot 애플리케이션에 전달하고 Spring boot 애플리케이션은 가장 처음 @Controller 어노테이션이 붙은 클래스(Controller)의 모든 메서드(핸들러)를 탐색하며 요청에 해당하는 path(/index-static.html)를 찾는다.(요청이 들어오면 Spring boot는 Controller를 가장 우선적으로 확인한다.)
+# Controller에 없으면 resources/static에 path와 동일한 이름의 파일이 있는지 찾는다.
 # Spring boot는 기본적으로 /resource/static 폴더에 생성한 정적 파일을 찾을 수 있기 때문에 Controller 없이 URL /path(localhost:8080/index-static.html)만으로 화면을 띄울 수 있다.
+-->

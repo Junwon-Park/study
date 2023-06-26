@@ -5,7 +5,16 @@
   <title>Hello</title>
 </head>
 <body>
-  <p th:text="'안녕하세요 ' + ${data1}">안녕하세요. 손님</p> # 여기에서 data1은 Controller에서 Model에 전달했던 데이터 data1이다. -> data1의 값은 "Spring!!"이었다.(컨트롤로에서 Model.addAttribute()에 전달한 data1: "Spring!!"이다.
-  # 그렇기 때문에 Model에 전달한 data1이라는 이름과 이름이 동일해야 한다. data1은 변수, "Spring!!"은 값이라고 생각하면 된다.(그래서 어떤 클래스나 변수 등을 이 파일에 가져오지 않았지만 data1이라는 데이터를 사용할 수 있는 것이다.)
+  <p th:text="'안녕하세요 ' + ${data1}">안녕하세요. 손님</p>
+  <!-- Thymeleaf는 이 피알의 절대 경로를 브라우저에 넣어서 서버 없이 파일을 열어볼 수 있다. -->
+  <!-- 이 때 보여지는 것은 p 태그 사이에 컨텐츠("안녕하세요. 손님")이며 서버가 실행되어 Thymeleaf가 실행되면 th:text= 에 할당된 값이 p 태그의 컨텐츠에 치환된다. -->
 </body>
 </html>
+<!--
+  웹 브라우저에서 localhost:8080/index-static.html을 입력하면 이 요청은 localhost:8080으로 열려 있는 내장 Tomcat 서버로 들어온다.
+  그리고 Tomcat 서버는 이 요청을 Spring boot 애플리케이션에 전달하고 Spring boot 애플리케이션은 가장 처음 @Controller 어노테이션이 붙은 클래스(Controller)의 모든 메서드(핸들러)를 탐색하며 요청에 해당하는 path(/index-static.html)를 찾는다.(요청이 들어오면 Spring boot는 Controller를 가장 우선적으로 확인한다.)
+  Controller에 없으면 resources/static에 path와 동일한 이름의 파일이 있는지 찾는다.
+  Spring boot는 기본적으로 /resource/static 폴더에 생성한 정적 파일을 찾을 수 있기 때문에 Controller 없이 URL /path(localhost:8080/hello.html)만으로 화면을 띄울 수 있다.
+  여기에서 data1은 Controller에서 Model에 전달했던 데이터 data1이다. -> data1의 값은 "Spring!!"이었다.(컨트롤로에서 Model.addAttribute()에 전달한 data1: "Spring!!"이다.
+  그렇기 때문에 Model에 전달한 data1이라는 이름과 이름이 동일해야 한다. data1은 변수, "Spring!!"은 값이라고 생각하면 된다.(그래서 어떤 클래스나 변수 등을 이 파일에 가져오지 않았지만 data1이라는 데이터를 사용할 수 있는 것이다.)
+-->
