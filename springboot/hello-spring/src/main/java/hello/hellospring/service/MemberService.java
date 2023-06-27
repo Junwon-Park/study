@@ -23,7 +23,7 @@ public class MemberService {
         memberRepository.findByName(member.getName()).ifPresent(m -> { // ifPresent() 메서드는 Optional<>로 감싸면 사용할 수 있는 Optional 메서드이다.
             // findByName 메서드의 반환 값이 Optional이기 때문에 ifPresent를 사용할 수 있다.
             // ifPresent는 결과 반환 값이 null이면 실행된다.
-            throw new IllegalStateException("이미 존재하는 회원입니다");
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
         });
 
         // 아래 코드를 위 처럼 간결하게 작성한 것이다.
