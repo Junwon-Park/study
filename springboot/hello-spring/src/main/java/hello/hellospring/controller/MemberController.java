@@ -1,8 +1,14 @@
 package hello.hellospring.controller;
 
+import hello.hellospring.domain.Member;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller // 스프링 부트가 실행될 때 스프링 컨테이너에 Controller로 MemberController가 스프링 빈으로 등록된다.
 // 등록되어 있지 않으면 의존성 주입 등을 할 때, 스프링 부트가 해당 클래스들을 각각 Controller, Service, Repository 등으로 인식할 수 없다.
@@ -18,6 +24,32 @@ public class MemberController {
     public MemberController(MemberService memberService) { // MemberController의 생성자를 통해 MemberService를 의존성 주입한 것이다.
         // 마찬가지로 MemberController와 MemberService가 모두 해당 어노테이션을 달아 스프링 컨테이너에 등록되어 있어야 @Autowired를 달아 의존성 주입할 떄 스프링 부트가 인식하도록 할 수 있다.
         this.memberService = memberService;
+    }
+
+    @GetMapping("/members/new")
+    public String createForm() {
+        return "members/createMemberForm";
+    }
+
+    @PostMapping("/members/new")
+    public String create(MemberForm form) { // 만들어둔 Member라는 타입으로 데이터를 받는다.
+        Member member = new Member();
+        member.setName(form.getName());
+
+        System.out.println("member = " + member.getName());
+
+        memberService.join(member); // 위에서 생성한 member 인스턴스 가입 처리
+
+        // 모든 처리 이후 홈화면으로 리디렉션
+        return "redirect:/"; // 콜론(:) 뒤에 지정된 경로로 리디렉션된다.
+    }
+
+    @GetMapping("/members")
+    public String list(Model model) {
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members); // View에 던져줄 데이터를 Model에 members라는 이름(키)으로 담는다.
+
+        return "members/memberList"; // Model을 members/memberList 템플릿 파일로 전달하면서 해당 화면으로 전환한다.
     }
 
     /**

@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>이름</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="member : ${members}">
+                    <!-- Thymeleaf에서 forEach 문법이다. members라는 키로 넘어온 데이터 리스트의 각 요소를 member로 순회한다. -->
+                    <!-- members의 요소 개수만큼 tr 태그를 반복해서 뿌려준다. -->
+                    <td th:text="${member.id}"></td>
+                    <td th:text="${member.name}"></td>
+                    <!-- tr 태그는 줄바꿈이 있고, td 태그는 줄 바꿈이 없다. -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

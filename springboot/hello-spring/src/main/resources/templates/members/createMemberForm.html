@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http:.//www.thymeleaf.org">
+<body>
+<div class="container">
+    <form action="/members/new" method="post">
+        <!-- submit 타입의 버튼이 눌리면 이 form은 action에 지정된 경로로 method에 지정된 메서드를 사용해 요청을 보낸다. -->
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" id="name" name="name" placeholder="이름을 입력하세요">
+            <!-- input 태그의 옵션 중 name="name"이 해당 input 창에 넘겨준 데이터의 Key가 되고 넘겨준 데이터가 Value가 된다. -->
+        </div>
+        <button type="submit">등록</button>
+    </form>
+</div>
+</body>
+</html>
