@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service // MemberController에 정리한 내용과 동일하다.
+//@Service // MemberController에 정리한 내용과 동일하다.
+// SpringConfig에서 자바 코드로 직접 빈으로 등록했다.
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    @Autowired // MemberController에 정리한 내용과 동일하다.
+//    @Autowired // MemberController에 정리한 내용과 동일하다.
+    // SpringConfig에서 자바코드로 직접 의존성 주입했다.
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
