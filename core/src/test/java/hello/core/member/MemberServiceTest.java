@@ -7,6 +7,7 @@ public class MemberServiceTest {
 
     MemberService memberService = new MemberServiceImpl();
 
+    // 테스트 메서드는 @Test 어노테이션을 달아줘야 테스트 실행 시 테스트 메서드로 인식한다.
     @Test
     void join() {
         // given: join(가입)을 위해 주어진 것(member)
