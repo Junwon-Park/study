@@ -16,6 +16,7 @@ public class HelloServlet extends HttpServlet { // 서블릿은 HttpServlet 클�
 
     // @WebServlet의 urlPatterns에 매핑된 Path로(여기에서는 /hello) Http 요청이 들어오면 서블릿 컨테이너는 해당 서블릿의 service 메서드를 자동으로 호출한다.
     // 인텔리제이에서 service 메서드를 간편하게 정의하는 방법은 ctrl + o에서 자물쇠 모양(protected 접근제어자)의 service를 불러오면 된다.
+    // 또는 그냥 service라고 입력하면 인텔리제이가 메서드를 추천해주는데, 그 중 접근 제어자가 protected인 것을 선택하면 된다.
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("HelloServlet.service");
