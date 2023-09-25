@@ -26,6 +26,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-devtools'
+
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0' // 프로젝트 중간에 추가한 외부 라이브러리는 마지막에 버전 정보를 넣어줘야 한다.
+	// DB 쿼리 파라미터 로그에 들어간 값을 볼 수 있게 해주는 라이브러리
+
+	testImplementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
