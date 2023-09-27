@@ -1,3 +1,4 @@
+# 원래 스프링 부트 프로젝트를 처음 생성하면 application.properties라는 파일이 이 위치에 생성되는데, 이 것의 확장자를 yml로 변경해서 yml 형식으로 작성한다.(편한 것 사용하면 됨)
 spring:
   datasource:
     url: jdbc:h2:tcp://localhost/~/jpashop;

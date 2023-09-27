@@ -22,7 +22,8 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // 이 라이브러리를 설치하면 templetes/application.yml(properties) 파일에 지정한 설정들을 자동으로 읽어서 등록한다.
+	// 그리고 @Entity, @persistenceContext, @Id, @GeneratedValue 등과 같은 JPA 애노테이션 들을 스프링 부트가 처리할 수 있도록 해준다.
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-devtools'
