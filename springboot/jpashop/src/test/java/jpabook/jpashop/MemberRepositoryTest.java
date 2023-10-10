@@ -10,7 +10,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringRunner.class) // junit에게 스프링과 관련된 테스트라는 것을 알려주는 애노테이션이다.
+@RunWith(SpringRunner.class) // junit에게 스프링과 관련된 테스트라는 것을 알려주는 애노테이션이다. 즉, 이 테스트에서 junit을 사용할 것이라몈 이 애노테이션을 붙여야 한다.
 @SpringBootTest // 스프링 부트에서 테스트를 하기 위해서는 이 애노테이션을 달아줘야 스프링 부트가 테스트임을 인식한다.
 public class MemberRepositoryTest {
 
