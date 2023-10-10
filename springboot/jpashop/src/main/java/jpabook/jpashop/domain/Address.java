@@ -1,2 +1,10 @@
-package jpabook.jpashop.domain;public class Address {
+package jpabook.jpashop.domain;
+
+import jakarta.persistence.Embeddable;
+import lombok.Getter;
+
+@Embeddable
+@Getter
+public class Address {
+
 }
