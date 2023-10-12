@@ -34,7 +34,8 @@ public class Order {
     private Delivery delivery;
 
 
-    private LocalDateTime orderTime;
+    private LocalDateTime orderTime; // 날짜 타입을 사용할 때, 자바 8버전 미만은 Date 클래스를 사용하고 자바 8 이상 버전은 LocalDateTime 클래스를 날짜 필드의 타입으로 사용한다.
+    // LocalDateTime 타입으로 지정해놓으면 JPA의 하이버네이트가 자동으로 인식하고 테이블 생성 시, 해당 필드를 날짜 타입으로 생성한다.
 
     private OrderStatus status; // 주문 상태 [ORDER, CANCEL[
 }
