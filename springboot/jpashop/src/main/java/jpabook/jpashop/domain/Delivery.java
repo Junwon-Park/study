@@ -15,7 +15,7 @@ public class Delivery {
     @OneToOne(mappedBy = "delivery")
     private Order order;
 
-    @Embedded
+    @Embedded // 내장 타입 사용하는 곳에 붙여주는 애노테이션으로 내장 타입 클래스에 @Embeddable 애노테이션이 붙어있다면 이 부분은 안붙여도 되지만 관례상 둘 다 붙이는 것이 좋다.
     private Address address;
 
     @Enumerated(EnumType.STRING) // Enum 컬럼에는 JPA jakarta의 @Enumerated() 애너테이션을 붙이고 애너테이션의 인자로 열거형 타입을 넣어준다.

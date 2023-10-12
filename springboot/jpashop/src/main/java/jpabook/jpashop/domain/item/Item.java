@@ -1,8 +1,12 @@
 package jpabook.jpashop.domain.item;
 
 import jakarta.persistence.*;
+import jpabook.jpashop.domain.Category;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) // 상속관계 매핑 시, 부모 클래스에 상속 전략을 지정해줘야 하는데, 이 떄, @Inheritance() 애노테이션의 strategy 옵션에 사용할 옵션 값을 설정해주면 된다.
@@ -26,4 +30,7 @@ public abstract class Item { // 상속관계 매핑에서 부모 클래스는 �
     private String name;
     private int price;
     private int stockQuantity;
+
+    @ManyToMany(mappedBy = "items")
+    private List<Category> categories = new ArrayList<>();
 }
