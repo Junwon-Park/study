@@ -19,7 +19,6 @@ import java.util.List;
 // name 옵션을 지정하지 않으면 기본 값은 DTYPE이라고 생성된다.
 // 그리고 위 애노테이션이 달린 부모 클래스를 상속받는 자식 클래스들은 데이터를 저장 할 때, DTYPE에 저장할 값을 지정해줘야 하는데, 자식 클래스에 @DiscriminatorValue 애노테이션을 붙이면 자식 클래스의 이름이 기본 값으로 부모 클래스의 DTYPE에 저장되도록 기본 값이 설정되어 있다.
 // 만약 DTYPE에 저장될 자식 클래스의 이름을 지정하려면 애노테이션의 파라미터에 문자열로 넣어서 지정할 수 있다.
-
 @Getter @Setter
 public abstract class Item { // 상속관계 매핑에서 부모 클래스는 구현 클래스인 자식 클래스로서 사용되기 때문에 추상 클래스(Abstract class)로 선언한다.
     @Id
