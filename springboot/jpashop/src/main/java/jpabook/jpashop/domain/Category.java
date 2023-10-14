@@ -6,6 +6,7 @@ import jpabook.jpashop.domain.item.Item;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Category {
     @Id
     @GeneratedValue
