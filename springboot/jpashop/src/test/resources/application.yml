@@ -1,0 +1,33 @@
+# 원래 스프링 부트 프로젝트를 처음 생성하면 application.properties라는 파일이 이 위치에 생성되는데, 이 것의 확장자를 yml로 변경해서 yml 형식으로 작성한다.(편한 것 사용하면 됨)
+# 스프링 부트 앱은 main/resources/application.yml이 기본적으로 적용되고, 테스트에는 test/resources/application.yml이 기본적으로 적용된다.
+# test 디렉토리dp resources 디렉토리와 그 안에 application.yml을 만들어줬다.
+# 여기에 작성된 설정은 테스트 시에만 적용된다.
+# 지금 까지는 테스트 시에도 실제 DB를 사용해서 테스트하도록 했지만 동시에 여러 곳에서 동시에 테스트를 돌리는 경우가 있을 수도 있고 실제 서비스라면 테스트를 하는 데
+# 실제 서비스에 사용하는 DB를 사용해서 테스트를 하는 것은 위험하기 때문에 실제 서비스 DB와 테스트에 사용되는 DB를 분리할 필요가 있는데, 테스트를 위해서 복잡하고 무거운 DB를 따로 셋팅하는 것도 비용 낭비일 수 있다.
+# 이럴 때, 스프링 부트에서는 메모리를 DB 처럼 임시로 사용할 수 있도록 하는 기능을 제공한다.
+# 바로 spring: 이하 DB 관련 설정을 모두 지우면 스프링 부트가 기본 값으로 In-Memory를 DB로 사용하도록 되어있다.
+spring:
+#  datasource:
+#    url: jdbc:h2:mem:test # url을 이렇게 설정하면 In-Memeory를 DB로 사용하도록 한다.
+#    # 바로 spring: datasoruce: url: jdbc:h2:mem:test로 설정하면 된다.
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: create # 애플리케이션 실행하면 DB의 테이블을 모두 지우고 엔티티를 확인해서 다시 생성한다.
+#    properties:
+#      hibernate:
+##        show_sql: true
+#        format_sql: true
+
+logging:
+  level:
+    sql: debug
+    # 이렇게 설정하면 JPA - hibernate에서 생성하는 SQL이 로그로 찍힌다.
+    # 위 jpa의 show_sql과의 차이점은 show_sql은 System.out.print로 로그를 찍어주고 여기 logging의 옵션은 Logger를 사용(권장)해서 찍어준댜.
+    type: trace
+    # type: trace 설정은 원래 쿼리에 대한 로거를 찍어도 쿼리 파라미터(파라미터에 넣은 값)가 (?, ?) 이런식으로 나와서 어떤 값이 들어갔는 지 확인할 수 없는데, 이 설정을 해주면 확인 가능하다.
+    # 하지만 이 설정만으로는 사용할 수 없고 이 설정을 추가해주고 기능을 해주는 라이브러리를 gradle에 추가해서 설치해야 한다.(이 프로젝트에서는 P6SPY라는 라이브러리를 사용했다.
+    # 이 설정은 개발 단게에서만 사용하고 프로덕트 단계에서는 사용하지 않도록 주의해야 한다.
