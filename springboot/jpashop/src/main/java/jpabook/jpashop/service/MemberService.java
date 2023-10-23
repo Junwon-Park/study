@@ -3,7 +3,6 @@ package jpabook.jpashop.service;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,10 @@ import java.util.List;
 // !!! 반드시 final로 선언된 DI 상수에만 주입해준다.
 // 그러면 해당 DI 상수에 값을 넣어줄 @AutoWired 생성자가 필요 없어지게 된다.
 public class MemberService {
-    private final MemberRepository memberRepository;
+    private final MemberRepository memberRepository; // @RequiredArgsConstructor를 사용하려면 final 상수여야 하기도 하지만 이걸 사용하지 않고 생성자 주입 시
+    // final을 안쓰면 컴파일 단계에서 에러를 띄우기 때문에 강제로 사용해야 하기 때문에 안전하다.
+    // DI 같은 경우 최초 생성 당시에만 할당(주입)이 일어나고 이후에는 변하면 안되기 때문에 final을 사용하는 것이 맞다.
+    // 결론은 DI 멤버는 모두 final을 사용해서 상수로 선언하는 것이 좋다.
 
     // ! Lombok의 @RequiredArgsConstructor를 사용했기 때문에 아래 코드를 작성하지 않아도 자동으로 위 DI 변수에 해당 빈을 주입해준다.
 //    @Autowired

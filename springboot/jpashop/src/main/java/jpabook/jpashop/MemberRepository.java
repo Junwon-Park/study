@@ -5,7 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import jpabook.jpashop.domain.Member;
 import org.springframework.stereotype.Repository;
 
-@Repository // Repository 컴포넌트 스캔(스프링 빈 자동 등록)
+//@Repository // Repository 컴포넌트 스캔(스프링 빈 자동 등록)
 public class MemberRepository {
 
     // JPA를 사용할 때는 EntityManager가 있어야 한다.
