@@ -2,6 +2,7 @@ package jpabook.jpashop.domain.item;
 
 import jakarta.persistence.*;
 import jpabook.jpashop.domain.Category;
+import jpabook.jpashop.exception.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,4 +33,27 @@ public abstract class Item { // 상속관계 매핑에서 부모 클래스는 �
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
+
+    // === 비즈니스 로직 === //
+    // 도메인 주도 설계(DDD) 관점에서 보면 엔티티 자체에서 해결할 수 있는 기능(로직)의 경우 해당 멤버(데이터)를 가지고 있는 엔티티 내에 비즈니스 로직이 있는 것이 객체지향 적인 면에서 좋다.
+    // 즉, 엔티티의 멤버를 수정하는 비즈니스 로직은 해당 엔티티 내에 있는 것이 객체지향과 DDD 관점에서 좋다.
+    // Setter를 사용하는 것이 아니라 핵심 비즈니스 로직을 만들어 사용하는 것이 객체지향의 관점에서 옳은 방법이다.
+
+    /**
+     * stock 증가
+     */
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    /**
+     * stock rkath
+     */
+    public void removeStock(int quantity) {
+        int restStock = this.stockQuantity - quantity; // 남은 수량
+        if (restStock < 0) { // 남은 수량이 0보다 작을 수 없다.
+            throw new NotEnoughStockException("Need more stock"); // 커스텀 Exception
+        }
+        this.stockQuantity = restStock; // 최종 결과 저장
+    }
 }
