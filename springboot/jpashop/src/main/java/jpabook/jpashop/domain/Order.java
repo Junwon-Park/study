@@ -1,7 +1,9 @@
 package jpabook.jpashop.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -14,6 +16,7 @@ import java.util.List;
 // 하지만 order라는 이름은 SQL의 쿼리를 사용할 때, order by를 사용하게 되면 order와 워딩이 겹쳐 인식 오류가 발생할 수 있어 관례상 order는 orders라는 테이블로 생성하도록 한다.
 // 이 때, 테이블의 이름을 지정하려면 위 처럼 @Table 애너테이션의 name 속성에 값으로 사용할 이름을 넣어주면 테이블 생성 시 해당 이름으로 생성한다.
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
     @Id
     @GeneratedValue
@@ -33,10 +36,10 @@ public class Order {
     // @JoinColumn 애너테이션은 연관 관계 주인에게 붙이며 FK 필드라는 것을 지정하는 것이다.
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
