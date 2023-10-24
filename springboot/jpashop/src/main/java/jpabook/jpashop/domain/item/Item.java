@@ -47,7 +47,7 @@ public abstract class Item { // 상속관계 매핑에서 부모 클래스는 �
     }
 
     /**
-     * stock rkath
+     * stock 감소
      */
     public void removeStock(int quantity) {
         int restStock = this.stockQuantity - quantity; // 남은 수량

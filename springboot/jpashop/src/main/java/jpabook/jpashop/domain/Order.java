@@ -73,4 +73,49 @@ public class Order {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
+
+    // === Order 생성 메서드 === //
+    // Order를 생성하는 메서드이며 Order의 멤버에 값을 채우는 로직이기 때문에 Order에 위치하는 것이 옳다.
+    // 이런 로직은 Setter를 사용하지 않고 명시적으로 만들어주는 것이 좋다.
+    // 엔티티 생성 메서드는 static으로 선언
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) { // 파라미터의 ...은 자바 문법이며 List 형태의 값을 넘길 수 있다.
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+
+        return order;
+    }
+
+    // === 비즈니스 로직 === //
+    /**
+     * 주문 취소
+     */
+    public void cancel() {
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("이미 배송 완료된 상품은 취소가 불가능합니다.");
+        }
+
+        this.setStatus(OrderStatus.CANCEL);
+        for (OrderItem orderItem : this.orderItems) {
+            orderItem.cancel();
+        }
+    }
+
+    // === 조회 로직 === //
+    /**
+     * 전체 주문 가격 조회
+     */
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem orderItem : this.orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+
+        return totalPrice;
+    }
 }
