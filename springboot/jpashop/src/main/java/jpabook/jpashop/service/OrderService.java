@@ -48,7 +48,7 @@ public class OrderService {
         orderRepository.save(order); // Order를 생성하려면 Order의 멤버인 Delivery와 OrderItem 모두 영속성 컨텍스트에 올라와야하는데,
         // 그렇게 하려면 원래 Delivery도 DeliveryRepository를 생성해서 거기에 save() 메서드로 em.persist(delivery)를 해주고
         // 마찬가지로 OrderItem도 OrderItemRepository를 생성해서 거기에 save() 메서드로 em.persist(OrderItem)를 해서 모두 영속성 컨텍스트의 1차 캐시에 올라와있어야 DB에 Order의 멤버로 Delivery와 OrderItem 가지고 저장할 수 있지만
-        // Order에 Delivery와 OrderItem 멤버 변수의 연관관계 매핑 애노테이션에 cascade 옵션을 CascadeType.All로 줘서 해당 엔티티인 Order를 em.Persist(order)해주면 Order의 멤버인 Delivery와 OrderItem 모두 자동으로 Persist 된다.
+        // Order에 Delivery와 OrderItem 멤버 변수의 연관관계 매핑 애노테이션에 cascade 옵션을 CascadeType.ALL로 줘서 해당 엔티티인 Order를 em.Persist(order)해주면 Order의 멤버인 Delivery와 OrderItem 모두 자동으로 Persist 된다.
         // 그래서 여기에 order만 save()해서 persist 해주면 의도한 대로 동작한다.
         // 단!!!, Cascade는 아무 때나 사용하면 안되고 Order와 멤버인 Delivery와 OrderItem 처럼 해당 멤버 변수의 엔티티들을 다른 엔티티에서 참조하지 않는 경우, 즉 이 경우 처럼 Delivery와 OrderItem를 오로지 Order에서만 사용하는 경우!
         // 이런 경우에 Order를 Persist 하면 Delivery와 OrderItem도 Persist 되도록 Casecade를 걸어주어야 한다.
