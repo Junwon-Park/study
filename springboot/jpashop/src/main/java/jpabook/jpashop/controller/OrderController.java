@@ -1,16 +1,16 @@
 package jpabook.jpashop.controller;
 
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.item.Item;
+import jpabook.jpashop.repository.OrderSearch;
 import jpabook.jpashop.service.ItemService;
 import jpabook.jpashop.service.MemberService;
 import jpabook.jpashop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,6 +46,22 @@ public class OrderController {
         // 되도록이면 DB와 관련된 핵심 비즈니스 로직은 Controller에서 하지 않고 Service 또는 Repository 또는 Entity의 메서드에 필요한 값만 넘겨서 진행하는 것이 좋다.
         // 위 처럼 값만 넘겨서 order() 메서드 내에서 DB 관련 작업 및 핵심 비즈니스 로직을 진행하게 되면 일단, 해당 Transaction 내에서 진행되기 때문에 JPA의 영속성 컨텍스트의 관리를 받을 수 있고
         // 한 Transaction 내에서 이루어져야 유지 보수 및 테스트에도 이점을 얻을 수 있다.
+
+        return "redirect:/orders";
+    }
+
+    @GetMapping("/orders")
+    public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model) {
+        List<Order> orders = orderService.findOrders(orderSearch);
+
+        model.addAttribute("orders", orders);
+
+        return "order/orderList";
+    }
+
+    @PostMapping("/orders/{orderId}/cancel")
+    public String cancelOrder(@PathVariable("orderId") Long orderId) {
+        orderService.cancelOrder(orderId);
 
         return "redirect:/orders";
     }
