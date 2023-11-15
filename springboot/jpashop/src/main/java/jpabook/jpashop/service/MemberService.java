@@ -59,4 +59,20 @@ public class MemberService {
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
+
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = memberRepository.findOne(id);
+        member.setName(name);
+        // 위 두 줄만 작성하면 해당 member의 name 값을 변경할 수 있다.
+        // @Transactional 애노테이션으로 인해 이 함수가 호출되면 트랜잭션이 시작되고, findOne을 하게 되면 영속성 컨텍스트에 해당 객체가 없기 때문에 DB에 조회해서 가져오게 되고
+        // 가져온 데이터를 영속성 컨텍스트에 저장하므로써 조회해온 member는 영속 상태가 된다.
+        // 그 다음, member의 name 값을 변경하고 트랜잭션이 끝나게 되면 영속성 컨텍스트에서 해당 member에 대한 Dirty check에 의해 변경 감자기 일어나고 변경이 감지된 부분에 대한 update 쿼리가 생성되고
+        // commit 시점에 flush가 호출되면서 해당 update 쿼리를 날려 DB에 반영하게 된다.
+
+        // 그리고 업데이트 후 업데이트 된 Member 엔티티를 반환할 수도 있지만, 그렇게 반환된 Member는 한 번의 트랜잭션이 끝난 뒤 반환된 객체이기 때문에 해당 Member 객체는 준영속 상태의 Member 객체이다.
+        // 그래서 업데이트 후 업데이트 된 객체를 반환하지 않고 그냥 여기에서 트랜잭션과 영속 상태가 끝나도록 하고 외부에서 다시 업데이트 된 Member를 조회해서 영속상태로 만든 뒤, 해당 Member를 사용하는 방식이 더 좋다.
+        // 업데이트 후 외부에서 업데이트 된 데이터 조회를 위한 id 정도는 반환해도 괜찮다.
+        // 이런식으로 커멘드와 쿼리를 분리하게 되면 유지보수성이 훨씬 좋아진다.
+    }
 }
