@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Member {
     // 결론은 사용하는 쪽에서는 해당 필드에 @Embedded 애너테이션을 붙여주고 해당 내장 클래스에 @Embeddable 애너테이션을 붙여도 되고 안붙여도 되지만, 관례상 붙이는 것을 권장한다.
     private Address address;
 
+    @JsonIgnore // @JsonIgnore 애노테이션을 붙이면 이 엔티티를 JSON 형식으로 변환할 때, 이 필드는 생략된다.(하지만 엔티티 자체를 DTO로 사용하면 안되기 때문에 이렇게 사용될 일은 많지 않기는 하다.)
     @OneToMany(mappedBy = "member") // 연관 관계 애너테이션에서 앞(One)이 이 엔티티를 가리키고 뒤(Many)가 상대 엔티티를 가리킨다.
     // 연관 관계 애노테이션의 인자로 mappedBy 옵션에 연관 관계 주인인 Order 엔티티의 member 필드에 맵핑되어 있다고 알려줘야 한다.
     private List<Order> orders = new ArrayList<>();

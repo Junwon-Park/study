@@ -4,9 +4,13 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.service.MemberService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController // 이 애노테이션 내부에 @Cotroller + @ResponseBody 애노테이션이 있다.
 @RequiredArgsConstructor
@@ -48,6 +52,39 @@ public class MemberApiController {
         memberService.update(id, request.getName());
         Member findMember = memberService.findOne(id);
         return new UpdateMemberResponse(findMember.getId(), findMember.getName());
+    }
+
+    @GetMapping("/api/v1/members")
+    public List<Member> membersV1() {
+        return memberService.findMembers();
+    }
+
+    @GetMapping("/api/v2/members")
+    public Result membersV2() {
+        // 위 v1은 엔티티 자체를 응답으로 반환해 노출시켰기 때문에 사용할 수 없는 API이다. 절대 저렇게 엔티티를 직접 외부에 노출시켜서는 안된다.
+        List<Member> findMembers = memberService.findMembers();
+        // findMembers는 Member 엔티티의 배열이기 때문에 이 대로 반환해서는 안된다.
+        // 그래서 아래와 같이 findMembers 배열을 map() 함수를 사용해 각 요소들을 MemberDto 객체로 맵핑해준다.
+        List<MemberDto> collect = findMembers.stream()
+                .map(m -> new MemberDto(m.getName()))
+                .collect(Collectors.toList());
+
+        // 하지만 map()의 결과는 배열이기 때문에 만약 응답 객체에 count 필드를 추가하려면 매우 불편하다.
+        // 이럴 떄는 아래와 같이 Result용 ResponseDto를 사용해서 스펙에 맞게 응답해줄 수 있다.
+        return new Result(collect.size(), collect);
+    }
+
+    @Data
+    @AllArgsConstructor // 해당 클래스의 모든 멤버 변수를 초기화하는 생성자를 내부적으로 생성해준다.(마치 있는 것 처럼 동작(Lombok))
+    static class Result<T> {
+        private int count;
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class MemberDto {
+        private String name;
     }
 
     @Data
