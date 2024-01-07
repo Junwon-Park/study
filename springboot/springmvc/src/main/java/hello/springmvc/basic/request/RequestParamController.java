@@ -1,13 +1,11 @@
 package hello.springmvc.basic.request;
 
+import hello.springmvc.basic.HelloData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException; // HttpServletResponse의 .getWriter()을 사용하려면 IOException이 필요하다.
 import java.util.Map;
@@ -97,6 +95,50 @@ public class RequestParamController {
     ) {
 
         log.info("username={}, age={}", paramMap.get("username"), paramMap.get("age"));
+
+        return "ok";
+    }
+
+    // @RequestParam은 단순 원시 타입 하나하나를 받을 때 사용하고 그 외에는 @ModelAttribute를 사용한다.
+    // @ModelAttribute는 요청 파라미터를 받아서 매개 변수의 타입에 지정한 클래스 객체를 생성해서 객체의 멤버 변수에 바인딩해서 API 매개 변수에 바인딩 해준다. -> @ModelAttribute를 사용하면 여러 요청 파라미터를 하나의 객체 형태로 받을 수 있다.
+    // @ModelAttribute는 생성한 객체의 멤버 변수에 요청 파라미터의 값을 해당 객체의 Setter를 호출해서 바인딩 해준다. -> 이 때, 요청 파라미터의 이름과 객체의 멤버 변수의 이름이 일치해야 한다.
+    // 그래서 바인딩 받을 객체에 Setter가 반드시 존재해야 한다.(Lombok의 @Data 사용)
+
+    // @RequestParam 사용
+    @ResponseBody
+    @RequestMapping("/model-attribute-v1")
+    public String requestParamV1(
+            @RequestParam String username,
+            @RequestParam int age
+    ) {
+        HelloData helloData = new HelloData();
+        helloData.setUsername(username);
+        helloData.setAge(age);
+
+        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
+        log.info("helloData={}", helloData);
+
+        return "ok";
+    }
+
+    // @ModelAttribute 사용
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    public String requestParamV2(
+            @ModelAttribute HelloData helloData
+    ) {
+        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
+        log.info("helloData={}", helloData);
+
+        return "ok";
+    }
+
+    // @ModelAttribute 생략
+    @ResponseBody
+    @RequestMapping("/model-attribute-v3")
+    public String requestParamV3(HelloData helloData) { // @ModelAttribute도 생략 가능하다.
+        log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
+        log.info("helloData={}", helloData);
 
         return "ok";
     }
