@@ -103,6 +103,7 @@ public class RequestParamController {
     // @ModelAttribute는 요청 파라미터를 받아서 매개 변수의 타입에 지정한 클래스 객체를 생성해서 객체의 멤버 변수에 바인딩해서 API 매개 변수에 바인딩 해준다. -> @ModelAttribute를 사용하면 여러 요청 파라미터를 하나의 객체 형태로 받을 수 있다.
     // @ModelAttribute는 생성한 객체의 멤버 변수에 요청 파라미터의 값을 해당 객체의 Setter를 호출해서 바인딩 해준다. -> 이 때, 요청 파라미터의 이름과 객체의 멤버 변수의 이름이 일치해야 한다.
     // 그래서 바인딩 받을 객체에 Setter가 반드시 존재해야 한다.(Lombok의 @Data 사용)
+    // @RequestParam와 @ModelAttribute 모두 애노테이션 생략이 가능하며, 바인딩 매개 변수의 타입이 원시타입인 경우 @RequestParam을, 그 외(객체 등)라면 @ModelAttribute이 적용된다.
 
     // @RequestParam 사용
     @ResponseBody
