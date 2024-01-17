@@ -49,7 +49,7 @@ public class ValidationItemControllerV1 {
         Map<String, String> errors = new HashMap<>();
 
         // 검증 로직
-        if (!StringUtils.hasText(item.getItemName())) {
+        if (!StringUtils.hasText(item.getItemName())) { // StringUtils는 Springframework 것을 사용하고 hasText()는 null, Wite space, Empty string 등을 넣으면 False, 길이 1 이상의 문자열을 넣으면 True가 반환된다.
             errors.put("itemName", "상품 이름은 필수입니다.");
         }
         if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
