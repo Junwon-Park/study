@@ -28,6 +28,14 @@ public class BoardDto {
     private String storedFileName; // 서버 저장용 파일 이름
     private int fileAttached; // 파일 첨부 여부(첨부 1, 미첨부 0)
 
+    public BoardDto(Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreatedTime) {
+        this.id = id;
+        this.boardWriter = boardWriter;
+        this.boardTitle = boardTitle;
+        this.boardHits = boardHits;
+        this.boardCreatedTime = boardCreatedTime;
+    }
+
     public static BoardDto toBoardDto(BoardEntity boardEntity) {
         BoardDto boardDto = new BoardDto();
 
@@ -40,14 +48,17 @@ public class BoardDto {
         boardDto.setBoardCreatedTime(boardEntity.getCreatedTime());
         boardDto.setBoardUpdatedTime(boardEntity.getUpdatedTime());
 
-        return boardDto;
-    }
+        if (boardEntity.getFileAttached() == 0) {
+            boardDto.setFileAttached(0);
+        } else {
+            boardDto.setFileAttached(boardEntity.getFileAttached());
 
-    public BoardDto(Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreatedTime) {
-        this.id = id;
-        this.boardWriter = boardWriter;
-        this.boardTitle = boardTitle;
-        this.boardHits = boardHits;
-        this.boardCreatedTime = boardCreatedTime;
+            // 파일 이름을 가져가야 한다.
+            // originalFileName, storedFileName -> board_file_table(BoardFileEntity)
+            boardDto.setOriginalFileName(boardEntity.getBoardFileEntityList().get(0).getOriginalFileName());
+            boardDto.setStoredFileName(boardEntity.getBoardFileEntityList().get(0).getStoredFileName());
+        }
+
+        return boardDto;
     }
 }
