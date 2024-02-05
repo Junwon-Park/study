@@ -1,10 +1,13 @@
 package hello.board.dto;
 
 import hello.board.entity.BoardEntity;
+import hello.board.entity.BoardFileEntity;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 // DTO: Data Transfer Object
 
@@ -23,9 +26,9 @@ public class BoardDto {
     private int boardHits;
     private LocalDateTime boardCreatedTime;
     private LocalDateTime boardUpdatedTime;
-    private MultipartFile boardFile; // 파일 데이터 담을 용도
-    private String originalFileName; // 원본 파일 이름
-    private String storedFileName; // 서버 저장용 파일 이름
+    private List<MultipartFile> boardFile; // 파일 데이터 담을 용도 -> File 여러 개 받으려면 배열 타입으로 받을 수 있다.
+    private List<String> originalFileName; // 원본 파일 이름
+    private List<String> storedFileName; // 서버 저장용 파일 이름
     private int fileAttached; // 파일 첨부 여부(첨부 1, 미첨부 0)
 
     public BoardDto(Long id, String boardWriter, String boardTitle, int boardHits, LocalDateTime boardCreatedTime) {
@@ -52,11 +55,16 @@ public class BoardDto {
             boardDto.setFileAttached(0);
         } else {
             boardDto.setFileAttached(boardEntity.getFileAttached());
+            List<String> originalFileNameList = new ArrayList<>();
+            List<String> storedFileNameList = new ArrayList<>();
 
-            // 파일 이름을 가져가야 한다.
-            // originalFileName, storedFileName -> board_file_table(BoardFileEntity)
-            boardDto.setOriginalFileName(boardEntity.getBoardFileEntityList().get(0).getOriginalFileName());
-            boardDto.setStoredFileName(boardEntity.getBoardFileEntityList().get(0).getStoredFileName());
+            for (BoardFileEntity boardFileEntity : boardEntity.getBoardFileEntityList()) {
+                originalFileNameList.add(boardFileEntity.getOriginalFileName());
+                storedFileNameList.add(boardFileEntity.getStoredFileName());
+            }
+
+            boardDto.setOriginalFileName(originalFileNameList);
+            boardDto.setStoredFileName(storedFileNameList);
         }
 
         return boardDto;

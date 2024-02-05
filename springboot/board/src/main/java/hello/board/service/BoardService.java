@@ -47,18 +47,20 @@ public class BoardService {
             7. board_file_table에 해당 데이터 save 처리한다.
              */
 
-            MultipartFile boardFile = boardDto.getBoardFile(); // 1.
-            String originalFilename = boardFile.getOriginalFilename(); // 2.
-            String storedFileName = System.currentTimeMillis() + "_" + originalFilename; // 3.
-            String savePath = "/Users/jackson/springboot_img/" + storedFileName; // 4. 저장할 Local 경로
-            boardFile.transferTo(new File(savePath)); // 5. 경로에 파일 저장
-            // transferTo() 메서드는 MultipartFile 인터페이스에서 제공하는 것으로 지정한 경로에 파일을 저장하는 메서드이다.
             BoardEntity boardEntity = BoardEntity.toSaveFileEntity(boardDto);
             Long savedId = boardRepository.save(boardEntity).getId();
             BoardEntity board = boardRepository.findById(savedId).get();
+            for (MultipartFile boardFile : boardDto.getBoardFile()) {
+//            List<MultipartFile> boardFile = boardDto.getBoardFile(); // 1.
+                String originalFilename = boardFile.getOriginalFilename(); // 2.
+                String storedFileName = System.currentTimeMillis() + "_" + originalFilename; // 3.
+                String savePath = "/Users/jackson/springboot_img/" + storedFileName; // 4. 저장할 Local 경로
+                boardFile.transferTo(new File(savePath)); // 5. 경로에 파일 저장
+                // transferTo() 메서드는 MultipartFile 인터페이스에서 제공하는 것으로 지정한 경로에 파일을 저장하는 메서드이다.
 
-            BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFilename, storedFileName);
-            boardFileRepository.save(boardFileEntity);
+                BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(board, originalFilename, storedFileName);
+                boardFileRepository.save(boardFileEntity);
+            }
         }
     }
 

@@ -1,7 +1,9 @@
 package hello.board.controller;
 
 import hello.board.dto.BoardDto;
+import hello.board.dto.CommentDto;
 import hello.board.service.BoardService;
+import hello.board.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/save")
     public String saveForm() {
@@ -47,6 +50,9 @@ public class BoardController {
                            @PageableDefault(page = 1) Pageable pageable) {
         boardService.updateHits(id);
         BoardDto boardDto = boardService.findById(id);
+        List<CommentDto> commentDtoList = commentService.findAll(id);
+
+        model.addAttribute("commentList", commentDtoList);
         model.addAttribute("board", boardDto);
         model.addAttribute("page", pageable.getPageNumber());
 
