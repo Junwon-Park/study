@@ -115,7 +115,8 @@ public class BoardService {
         
         int pageLimit = 3;
 
-        Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
+        Page<BoardEntity> boardEntities = boardRepository.findAll(pageable); // Pageable로 넘어온 객체 그대로 사용
+//        Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id"))); // 페이지 옵션 직접 지정
 
         System.out.println("boardEntities.getContent() = " + boardEntities.getContent()); // 요청 페이지에 해당하는 글
         System.out.println("boardEntities.getTotalElements() = " + boardEntities.getTotalElements()); // 전체 글갯수
