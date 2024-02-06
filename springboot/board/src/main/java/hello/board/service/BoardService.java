@@ -107,8 +107,12 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 
+    @Transactional
     public Page<BoardDto> paging(Pageable pageable) {
-        int page = pageable.getPageNumber() -1;
+        int page = pageable.getPageNumber() - 1;
+        log.info("page={}", page);
+        log.info("Pageable={}", pageable);
+        
         int pageLimit = 3;
 
         Page<BoardEntity> boardEntities = boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
@@ -121,7 +125,6 @@ public class BoardService {
         System.out.println("boardEntities.hasPrevious() = " + boardEntities.hasPrevious()); // 이전 페이지 존재 여부
         System.out.println("boardEntities.isFirst() = " + boardEntities.isFirst()); // 첫 페이지 여부
         System.out.println("boardEntities.isLast() = " + boardEntities.isLast()); // 마지막 페이지 여부
-
 
         // DTO 필드: id, boardWriter, title hits, createdTime
         return boardEntities.map(board ->

@@ -4,11 +4,13 @@ import hello.board.dto.BoardDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
+@ToString
 @Entity // 이 애노테이션을 달면 스프링이 이 클래스를 Entity class로 인식하게 되기 때문에 해당 클래스에 @Id 애노테이션을 달고 있는 id(PK) 필드가 없다면 컴파일 에러가 발생한다.
 @Table(name = "board_table")
 public class BoardEntity extends BaseEntity {
