@@ -1,10 +1,13 @@
 package com.studyolle.config;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration // 스프링 빈 컨테이너로 등록
@@ -27,4 +30,13 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    @Bean // 해당 빈과 아래 설정을 해줘야 Spring security의 static 리소스 사용을 허용할 수 있다.
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
+
+    // Spring security 5.7 이후 WebSecurityConfigurerAdapter 사용 중단(Deprecated)으로 변경된 사항 아래 문서 링크에서 확인 및 적용
+    // https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
 }

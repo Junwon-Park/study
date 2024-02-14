@@ -35,6 +35,7 @@ public class Account {
     private String location; // 사는 곳 주소
 
     @Lob @Basic(fetch = FetchType.EAGER) // 이미지의 경우 계정을 조회할 때, 함께 가져오는 경우가 많아 FetchType을 EAGER로 설정
+    // 확인 해보니 @Basic의 fetch 속성은 기본 값이 FetchType.EAGER이기 때문에 FetchType.EAGER로 명시할 필요는 없다.(여기에선 강의와 동일하게 명시)
     private String profileImage; // String 타입은 기본적으로 varchar(255)로 설정됨
     // 이미지의 경우 varchar(255) 이상이 될 수 있기 때문에 @Lob으로 지정
 
