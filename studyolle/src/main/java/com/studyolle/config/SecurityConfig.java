@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -31,10 +30,14 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // 정적 리소스에 대한 검사 생략
     @Bean // 해당 빈과 아래 설정을 해줘야 Spring security의 static 리소스 사용을 허용할 수 있다.
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
+        return (web) -> web.ignoring() // ignoring()은 인증/인가를 생략한다.
+                // requestMatchers()에 해당하는 것에 대해서 인증/인가를 생략한다.
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        // PathRequest.toStaticResources().atCommonLocations() 내부를 보면 ENUM 클래스가 존재하는데 해당 ENUM에 각 정적 리소스들의 경로 기본 값이 지정되어 있다.
+        // 즉 해당 경로에 매칭되는 정적 리소스에 대해 인증/인가를 ignoring() 하도록 한다.
     }
 
     // Spring security 5.7 이후 WebSecurityConfigurerAdapter 사용 중단(Deprecated)으로 변경된 사항 아래 문서 링크에서 확인 및 적용
