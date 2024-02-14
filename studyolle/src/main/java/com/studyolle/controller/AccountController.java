@@ -29,12 +29,14 @@ public class AccountController {
     }
 
     @PostMapping("/sign-up")
-    public String signUpSubmit(@Validated SignUpForm signUpForm, Errors errors) {
+    public String signUpSubmit(@Validated SignUpForm signUpForm, Errors errors) { // DTO에 지정한 유효성 검사는 @Validated 애노테이션이 있어야 동작한다.
+        // 유효성 검사를 통과하지 못한 경우 해당 에러는 Errors에 바인딩 된다.
         if (errors.hasErrors()) {
-            return "account/sign-up";
+            return "account/sign-up"; // @ModelAttribute가 생략됐기 때문에 View 객체에 Model이 함께 넘어가 Render()를 호출한다.
+            // 그렇기 때문에 입력한 값 그 대로 화면에 남은 채로 보여지게 된다.
         }
 
         // TODO 회원 가입 처리
-        return "redirect:/";
+        return "redirect:/"; // Root 경로로 리다이렉트
     }
 }
