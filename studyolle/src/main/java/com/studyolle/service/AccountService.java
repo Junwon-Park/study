@@ -6,6 +6,7 @@ import com.studyolle.domain.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class AccountService {
     private final AccountRepository accountRepository;
     private final JavaMailSender javaMailSender;
+    private final PasswordEncoder passwordEncoder;
 
     public void processNewAccount(SignUpForm signUpForm) {
         Account savedNewAccount = getNewAccount(signUpForm);
@@ -23,7 +25,7 @@ public class AccountService {
         Account account = Account.builder() // Account 엔티티에 @Builder 애노테이션을 적용했기 때문에 빌더 패턴을 사용할 수 있다.
                 .email(signUpForm.getEmail())
                 .nickname(signUpForm.getNickname())
-                .password(signUpForm.getPassword()) // TODO 비밀번호는 Encoding 후 저장해야 한다.
+                .password(passwordEncoder.encode(signUpForm.getPassword())) // TODO 비밀번호는 Encoding 후 저장해야 한다.
                 .studyCreatedByWeb(true)
                 .studyUpdatedByWeb(true)
                 .studyEnrollmentResultByWeb(true)

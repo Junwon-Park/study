@@ -1,5 +1,6 @@
 package com.studyolle.controller;
 
+import com.studyolle.domain.Account;
 import com.studyolle.repository.AccountRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -28,8 +29,8 @@ class AccountControllerTest {
     @Autowired
     private AccountRepository accountRepository;
 
-    @MockBean
-    JavaMailSender javaMailSender;
+    @MockBean // 스프링 빈 컨테이너에 존재하는 빈을 Mock으로 사용하기 위해 주입 받을 때 사용한다.
+    JavaMailSender javaMailSender; // JavaMailSender를 구현하는 ConsoleMailSender 구현체가 컴포넌트 스캔 대상이기 때문에 빈으로 등록되어 있어 여기에 해당 구현체가 주입된다.
 
     @DisplayName("회원 가입 화면 보이는 지 테스트")
     @Test
@@ -64,7 +65,10 @@ class AccountControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
 
-        assertTrue(accountRepository.existsByEmail("your@email.com"));
+        Account account = accountRepository.findByEmail("your@email.com");
+        assertNotNull(account); // null이 아니면 통과
+        assertNotEquals(account.getPassword(), "12345678");
+        // 두 값이 일치하지 않으면 통과 -> 클라이언트가 입력한 비밀번호를 저장할 때, 해싱 해서 저장했으므로 저장된 account의 비밀 번호는 해싱 값이기 때문에 클라이언트가 입력한 평문 비밀번호와 값이 다르다면 비밀번호가 해싱 돼서 저장되었다고 유추할 수 있다.
         then(javaMailSender).should().send(any(SimpleMailMessage.class));
     }
 }
