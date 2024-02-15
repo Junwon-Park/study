@@ -4,9 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
-@Getter @Setter @EqualsAndHashCode(of = "id")
+@Getter @Setter
+@EqualsAndHashCode(of = "id") // equals와 hashCode 메서드를 자동으로 오버라이딩 해주는 Lombok 애노테이션
+// of 속성으로 특정 필드를 지정해서 해당 필드에 대해서만 equals와 hashCode를 생성하도록 할 수 있다.(현재는 id 필드만 equals와 hashCode 적용)
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class Account {
     @Id @GeneratedValue
@@ -50,4 +53,8 @@ public class Account {
     private boolean studyUpdatedByEmail; // 스터디 변경 정보 이메일 수신 여부
 
     private boolean studyUpdatedByWeb; // 스터디 변경 정보 웹 수신 여부
+
+    public void generateEmailCheckToken() {
+        this.emailCheckToken = UUID.randomUUID().toString();
+    }
 }
