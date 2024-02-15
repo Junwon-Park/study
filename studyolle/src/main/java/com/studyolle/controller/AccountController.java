@@ -1,10 +1,9 @@
 package com.studyolle.controller;
 
-import com.studyolle.domain.Account;
-import com.studyolle.domain.ConsoleMailSender;
+import com.studyolle.dto.SignUpForm;
+import com.studyolle.service.AccountService;
+import com.studyolle.validator.SignUpFormValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -18,8 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class AccountController {
 
     private final SignUpFormValidator signUpFormValidator;
-    private final AccountRepository accountRepository;
-    private final JavaMailSender javaMailSender;
+    private final AccountService accountService;
 
     @InitBinder("signUpForm")
     // 이 컨트롤러로 들어오는 요청의 데이터 중 "signUpForm"이라는 이름으로 들어오는 데이터는 먼저
@@ -42,25 +40,8 @@ public class AccountController {
             // 그렇기 때문에 입력한 값 그 대로 화면에 남은 채로 보여지게 된다.
         }
 
-        // TODO 회원 가입 처리
-        Account account = Account.builder() // Account 엔티티에 @Builder 애노테이션을 적용했기 때문에 빌더 패턴을 사용할 수 있다.
-                .email(signUpForm.getEmail())
-                .nickname(signUpForm.getNickname())
-                .password(signUpForm.getPassword()) // TODO 비밀번호는 Encoding 후 저장해야 한다.
-                .studyCreatedByWeb(true)
-                .studyUpdatedByWeb(true)
-                .studyEnrollmentResultByWeb(true)
-                .build();
-        Account newAccount = accountRepository.save(account);
-
-        newAccount.generateEmailCheckToken();
-
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setSubject("스터디올래, 회원 가입 인증");
-        mailMessage.setText("/check-email-token?token=" + newAccount.getEmailCheckToken() +
-                "&email=" + newAccount.getEmail());
-
-        javaMailSender.send(mailMessage);
+        // 회원 가입 처리
+        accountService.processNewAccount(signUpForm);
 
         return "redirect:/"; // Root 경로로 리다이렉트
     }

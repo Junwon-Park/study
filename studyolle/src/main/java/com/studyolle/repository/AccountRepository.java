@@ -1,4 +1,4 @@
-package com.studyolle.controller;
+package com.studyolle.repository;
 
 import com.studyolle.domain.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
