@@ -22,6 +22,7 @@ public class Work01Controller {
     public Work01Controller(LocalDateTimeService localDateTimeService) {
         this.localDateTimeService = localDateTimeService;
     }
+
     @GetMapping("/calc")
     public CalculatorResponse calculator(@RequestParam int num1, @RequestParam int num2) {
         return new CalculatorResponse(num1, num2);
