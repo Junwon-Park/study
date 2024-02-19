@@ -1,4 +1,4 @@
-package com.group.libraryapp.controller;
+package com.group.libraryapp.controller.calculator;
 
 import com.group.libraryapp.dto.calculator.request.CalculatorAddRequest;
 import org.springframework.web.bind.annotation.GetMapping;
