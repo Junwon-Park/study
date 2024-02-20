@@ -1,10 +1,13 @@
 package com.studyolle.controller;
 
+import com.studyolle.domain.Account;
 import com.studyolle.dto.SignUpForm;
+import com.studyolle.repository.AccountRepository;
 import com.studyolle.service.AccountService;
 import com.studyolle.validator.SignUpFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -12,12 +15,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDateTime;
+
 @Controller
 @RequiredArgsConstructor
 public class AccountController {
 
     private final SignUpFormValidator signUpFormValidator;
     private final AccountService accountService;
+    private final AccountRepository accountRepository;
 
     @InitBinder("signUpForm")
     // 이 컨트롤러로 들어오는 요청의 데이터 중 "signUpForm"이라는 이름으로 들어오는 데이터는 먼저
@@ -44,5 +50,27 @@ public class AccountController {
         accountService.processNewAccount(signUpForm);
 
         return "redirect:/"; // Root 경로로 리다이렉트
+    }
+
+    @GetMapping("/check-email-token")
+    public String checkEmailToken(String token, String email, Model model) {
+        Account account = accountRepository.findByEmail(email);
+        String view = "account/checked-email";
+        if (account == null) {
+            model.addAttribute("error", "wrong.email");
+            return view;
+        }
+
+        if (!account.getEmailCheckToken().equals(token)) {
+            model.addAttribute("error", "wrong.token");
+            return view;
+        }
+
+        account.setEmailVerified(true);
+        account.setJoinedAt(LocalDateTime.now());
+        model.addAttribute("numberOfUser", accountRepository.count());
+        model.addAttribute("nickname", account.getNickname());
+
+        return view;
     }
 }
