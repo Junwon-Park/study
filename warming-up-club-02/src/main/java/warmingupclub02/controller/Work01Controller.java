@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import warmingupclub02.LocalDateTimeService;
+import warmingupclub02.dto.request.FruitRequest;
 import warmingupclub02.dto.request.SumRequest;
 import warmingupclub02.dto.response.CalculatorResponse;
 import warmingupclub02.dto.response.LocalDateTimeResponse;
@@ -38,5 +39,12 @@ public class Work01Controller {
     @PostMapping("/sum")
     public ResponseEntity<Integer> sum(@RequestBody SumRequest request) {
         return new ResponseEntity<>(Arrays.stream(request.getNumbers()).sum(), HttpStatus.OK);
+    }
+
+    @PostMapping("/fruit")
+    public ResponseEntity<String> saveFruit(@RequestBody FruitRequest request) {
+        System.out.println(request.getName());
+
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
 }
