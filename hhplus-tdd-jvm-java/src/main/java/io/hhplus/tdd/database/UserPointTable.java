@@ -14,18 +14,19 @@ public class UserPointTable {
     private Map<Long, UserPoint> table = new HashMap<>();
 
     public UserPoint selectById(Long id) throws InterruptedException {
-        Thread.sleep(Long.parseLong(String.valueOf(Math.random())) * 200L);
-
+        System.out.println("Select by id: " + id);
+        Thread.sleep((long) (Math.random() * 200L));
         UserPoint userPoint = table.get(id);
 
         if (userPoint == null) {
             return new UserPoint(id, 0L, System.currentTimeMillis());
         }
+
         return userPoint;
     }
 
     public UserPoint insertOrUpdate(Long id, Long amount) throws InterruptedException {
-        Thread.sleep(Long.parseLong(String.valueOf(Math.random())) * 300L);
+        Thread.sleep((long) (Math.random() * 300L));
 
         UserPoint userPoint = new UserPoint(id, amount, System.currentTimeMillis());
         table.put(id, userPoint);

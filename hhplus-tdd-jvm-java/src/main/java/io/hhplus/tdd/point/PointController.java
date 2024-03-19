@@ -1,5 +1,6 @@
 package io.hhplus.tdd.point;
-
+import io.hhplus.tdd.database.UserPointTable;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,12 +10,18 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/point")
 @RestController
+@RequiredArgsConstructor
 public class PointController {
+
+    public final PointService pointService;
+
     /**
      * TODO - 특정 유저의 포인트를 조회하는 기능을 작성해주세요.
      */
     @GetMapping("{id}")
-    public UserPoint point(@PathVariable Long id) {
+    public UserPoint point(@PathVariable Long id) throws InterruptedException {
+        pointService.test(id);
+
         return new UserPoint(0L, 0L, 0L);
     }
 
