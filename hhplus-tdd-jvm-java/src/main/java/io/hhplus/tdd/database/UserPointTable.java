@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 해당 Table 클래스는 변경하지 않고 공개된 API 만을 사용해 데이터를 제어합니다.
@@ -13,9 +14,9 @@ import java.util.Map;
 public class UserPointTable {
     private Map<Long, UserPoint> table = new HashMap<>();
 
-    public UserPoint selectById(Long id) throws InterruptedException {
-        System.out.println("Select by id: " + id);
-        Thread.sleep((long) (Math.random() * 200L));
+    public UserPoint selectById(Long id) {
+        throttle(200);
+
         UserPoint userPoint = table.get(id);
 
         if (userPoint == null) {
@@ -25,12 +26,20 @@ public class UserPointTable {
         return userPoint;
     }
 
-    public UserPoint insertOrUpdate(Long id, Long amount) throws InterruptedException {
-        Thread.sleep((long) (Math.random() * 300L));
+    public UserPoint insertOrUpdate(Long id, Long amount) {
+        throttle(300);
 
         UserPoint userPoint = new UserPoint(id, amount, System.currentTimeMillis());
         table.put(id, userPoint);
 
         return userPoint;
+    }
+
+    private void throttle(long millis) {
+        try {
+            TimeUnit.MILLISECONDS.sleep((long) (Math.random() * millis));
+        } catch (InterruptedException ignored) {
+
+        }
     }
 }
