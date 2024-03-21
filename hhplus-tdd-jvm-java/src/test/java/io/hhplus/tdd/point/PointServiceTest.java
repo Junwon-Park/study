@@ -87,11 +87,39 @@ class PointServiceTest {
         List<PointHistory> pointHistories_2L = pointService.getHistoriesById(2L);
         List<PointHistory> pointHistories_3L = pointService.getHistoriesById(3L);
 
+        System.out.println(pointHistories_3L);
+
         // Then
+        // 1L
         assertThat(pointHistories_1L).hasSize(1);
         assertThat(pointHistories_1L.get(0)).isInstanceOf(PointHistory.class);
-        assertThat(pointHistories_1L.get(0).id()).isEqualTo(1L);
+        assertThat(pointHistories_1L.get(0).userId()).isEqualTo(1L);
         assertThat(pointHistories_1L.get(0).amount()).isEqualTo(100L);
         assertThat(pointHistories_1L.get(0).type()).isEqualTo(TransactionType.CHARGE);
+
+        // 2L
+        assertThat(pointHistories_2L).hasSize(4);
+        assertThat(pointHistories_2L.get(0)).isInstanceOf(PointHistory.class);
+        assertThat(pointHistories_2L.get(0).userId()).isEqualTo(2L);
+        assertThat(pointHistories_2L.get(0).amount()).isEqualTo(200L);
+        assertThat(pointHistories_2L.get(0).type()).isEqualTo(TransactionType.CHARGE);
+
+        // 3L
+        assertThat(pointHistories_3L).hasSize(2);
+        assertThat(pointHistories_3L.get(0)).isInstanceOf(PointHistory.class);
+        assertThat(pointHistories_3L.get(0).userId()).isEqualTo(3L);
+        assertThat(pointHistories_3L.get(0).amount()).isEqualTo(300L);
+        assertThat(pointHistories_3L.get(0).type()).isEqualTo(TransactionType.CHARGE);
+    }
+
+    @DisplayName("")
+    @Test
+    void test() {
+        // Given
+
+        // When
+
+        // Then
+
     }
 }
