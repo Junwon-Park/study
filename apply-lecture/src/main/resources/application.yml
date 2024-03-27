@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: testuser
+
+#  # jpa properties
+#  jpa:
+#    hibernate:
+#      ddl-auto: update # When you launch the application for the first time - switch "none" at "create"
+#    show-sql: true
+#    database: postgresql
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    open-in-view: false
+#    generate-ddl: true
