@@ -22,7 +22,7 @@ public class HelloController {
     }
 
     @GetMapping("hello-api")
-    @ResponseBody // Http의 바디(페이로드에 데이터를 내려주도록 하는 애노테이션 -> 해당 애노테이션이 달려 있으면 응답 시 viewResolver가 아닌 HttpMessageConverter라는 것이 동작한다.
+    @ResponseBody // Http의 바디(페이로드)에 데이터를 내려주도록 하는 애노테이션 -> 해당 애노테이션이 달려 있으면 응답 시 viewResolver가 아닌 HttpMessageConverter라는 것이 동작한다.
     public Hello helloApi(@RequestParam(value = "name", required = false) String name) {
         Hello hello = new Hello();
         hello.setName(name);
