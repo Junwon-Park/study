@@ -44,6 +44,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    //=== 연관관계 편의 메서드 ===//
     /**
      * 연관관계 편의 메서드
      * 원래 당연한 것이지만 양방향 연관관계를 다루는 비즈니스 로직에서 member를 저장할 때 order를 저장하는 로직도 구현해야 하지만 개발자도 사람이기 때문에 까먹고 저장하지 않을 수 있다.
@@ -54,8 +55,63 @@ public class Order {
         member.getOrders().add(this);
     }
 
+    public void addOrderItem(OrderItem orderItem) {
+        this.orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
     public void setDelivery(Delivery delivery) {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
+
+    //=== 생성 메서드 ===//
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+        Order order = new Order();
+
+        order.setMember(member);
+        order.setDelivery(delivery);
+
+        for(OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+
+        return order;
+    }
+
+    //=== 비즈니스 로직 ===//
+    /**
+     * 주문 취소
+     */
+    public void cancel() {
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("이미 배송 완료된 상품은 취소가 불가능합니다.");
+        }
+
+        this.setStatus(OrderStatus.CANCEL);
+
+        for(OrderItem orderItem : orderItems) {
+            // 현재 주문의 OrderItem들을 모두 순회하며 취소 처리
+            // 주문이 취소되면 해당 OrderItem에 해당하는 Item의 수량을 다시 주문 수량만큼 추가해줘야 하는데 해당 과정을 수행해주는 로직이다.
+            orderItem.cancel();
+        }
+    }
+
+    //=== 조회 로직 ===//
+    /**
+     * 전체 주문 가격 조회
+     */
+    public int getTotalPrice() {
+        int totalPrice = 0;
+
+        for(OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getOrderPrice();
+        }
+
+        return totalPrice;
+    }
+
 }
