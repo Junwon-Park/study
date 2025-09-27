@@ -3,7 +3,6 @@ package jpabook.jpashop.service;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired; // 최종 코드에서는 이 부분 필요 없음
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,7 +67,7 @@ public class MemberService {
      * 회원 단건 조회
      */
     public Member findOne(Long id) {
-        return memberRepository.findById(id);
+        return memberRepository.findOne(id);
     }
 
     private void validateDuplicateByMemberName(Member member) {

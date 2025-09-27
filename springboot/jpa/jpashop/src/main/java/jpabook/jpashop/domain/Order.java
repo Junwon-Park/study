@@ -1,7 +1,9 @@
 package jpabook.jpashop.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -14,6 +16,8 @@ import static jakarta.persistence.FetchType.*;
 @Entity
 @Table(name = "orders")
 @Getter @Setter
+// 아래 Lombok의 애노테이션을 달아주면 스프링이 실행될 때 해당 클래스의 기본 생성자의 접근제어자를 Protected로 자동 생성해준다.
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id @GeneratedValue
@@ -108,7 +112,7 @@ public class Order {
         int totalPrice = 0;
 
         for(OrderItem orderItem : orderItems) {
-            totalPrice += orderItem.getOrderPrice();
+            totalPrice += orderItem.getOrderPrice() * orderItem.getQuantity();
         }
 
         return totalPrice;

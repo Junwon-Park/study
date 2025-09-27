@@ -1,7 +1,6 @@
 package jpabook.jpashop.repository;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jpabook.jpashop.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -22,7 +21,7 @@ public class MemberRepository {
         return member.getId();
     }
 
-    public Member findById(long id) {
+    public Member findOne(long id) {
         return em.find(Member.class, id);
     }
 
