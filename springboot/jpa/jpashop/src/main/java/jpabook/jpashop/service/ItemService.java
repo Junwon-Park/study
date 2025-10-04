@@ -28,6 +28,14 @@ public class ItemService {
         return itemRepository.findOne(id);
     }
 
+    @Transactional
+    public void updateItem(Long itemId, String name, int price, int stockQuantity) {
+        Item item = itemRepository.findOne(itemId);
+        item.setName(name);
+        item.setPrice(price);
+        item.setStockQuantity(stockQuantity);
+    }
+
     /**
      * ItemService의 메서드들을 보면 ItemRepository에 있는 기능을 그대로 선언한 것 뿐이다.
      * 즉, 위 메서드들은 단지 ItemService에서 ItemRepository로 처리를 위임하는 역할만을 할 뿐이고 사실 없어도 된다.

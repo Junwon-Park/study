@@ -3,12 +3,14 @@ package jpabook.jpashop.repository;
 import jakarta.persistence.EntityManager;
 import jpabook.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class OrderRepository {
 
     private final EntityManager em;
